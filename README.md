@@ -2,16 +2,15 @@
 
 <img src="./images/Oracle_Logo.jpg" alt="Oracle" width="220"/>
 
-# 🚀 DeepDive Workshop OCI 2026
-### AI Data Platform (AIDP) + AI Database Agent Factory
+# 🚀 DeepDive DPAF OCI 2026
+###  AI Database Agent Factory
 
 [![OCI Console](https://img.shields.io/badge/OCI%20Console-F80000?style=for-the-badge&logo=oracle&logoColor=white)](https://cloud.oracle.com/)
 [![AI Database](https://img.shields.io/badge/AI%20Database-26ai-red?style=for-the-badge)](https://www.oracle.com/database/)
-[![Generative AI](https://img.shields.io/badge/Generative%20AI-OCI-blue?style=for-the-badge)](https://www.oracle.com/artificial-intelligence/generative-ai/)
 [![AI Data Platform](https://img.shields.io/badge/AI%20Data%20Platform-OCI-C74634?style=for-the-badge)](https://www.oracle.com/ai-data-platform/)
 [![Duration](https://img.shields.io/badge/Duración-%7E4%20hrs-orange?style=for-the-badge)]()
 
-*Un workshop end‑to‑end para construir una plataforma de datos moderna e inteligente sobre Oracle Cloud Infrastructure, integrando **AI Data Platform** y **AI Database Private Agent Factory**.*
+*Un workshop end‑to‑end para construir una plataforma de datos moderna e inteligente sobre Oracle Cloud Infrastructure, integrando **AI Database Private Agent Factory**.*
 
 </div>
 
@@ -19,13 +18,12 @@
 
 ## 📖 Acerca de este workshop
 
-En este laboratorio vas a recorrer el ciclo completo de una **plataforma de datos con IA generativa** sobre Oracle Cloud Infrastructure. Aprovisionarás los servicios, ingestarás datos, organizarás catálogos en arquitectura medallón (Bronze/Silver/Gold) y, finalmente, construirás **agentes de IA** capaces de entender lenguaje natural, generar SQL y narrar resultados — todo sobre productos nativos de Oracle.
+En este laboratorio vas a recorrer el ciclo completo de una **AI Database Agent Factory** sobre Oracle Cloud Infrastructure. Aprovisionarás los servicios, ingestarás datos y, finalmente, construirás **agentes de IA** capaces de entender lenguaje natural, generar SQL y narrar resultados — todo sobre productos nativos de Oracle.
 
 Trabajaremos con dos productos estrella del stack de IA de Oracle:
 
 | Producto | Descripción |
 |---|---|
-| 🧩 **Oracle AI Data Platform (AIDP)** | Plataforma unificada para ingesta, catalogación, workflows de datos, notebooks y agentes inteligentes. |
 | 🤖 **Oracle AI Database Private Agent Factory (DPAF)** | Factoría de agentes privados desplegada en tu tenancy, con Agent Builder visual, RAG y Text‑to‑SQL sobre Oracle Database 26ai. |
 
 > 💡 **Pre‑requisito:** acceso activo a una consola de **Oracle Cloud Infrastructure** con permisos en el compartment donde se desplegarán los servicios.
@@ -36,10 +34,8 @@ Trabajaremos con dos productos estrella del stack de IA de Oracle:
 
 Al finalizar, serás capaz de:
 
-- Aprovisionar una **Autonomous AI Database 26ai** y una instancia de **AI Data Platform** desde OCI Console / Resource Manager.
-- Ingestar datos en Autonomous mediante `DBMS_CLOUD` y en AIDP mediante catálogos externos y estándar.
-- Organizar información siguiendo la arquitectura medallón (**Bronze → Silver → Gold**).
-- Ejecutar notebooks de laboratorio en un **cluster de AIDP**.
+- Aprovisionar una **Autonomous AI Database 26ai** desde OCI Console / Resource Manager.
+- Ingestar datos en Autonomous mediante `DBMS_CLOUD` 
 - Desplegar **AI Database Private Agent Factory** desde OCI Marketplace.
 - Diseñar un flujo conversacional en **Agent Builder** conectado a una base de datos real 
 ---
@@ -85,31 +81,16 @@ Al finalizar, serás capaz de:
 ### 🧱 Módulo 1 · Preparación del entorno
 - [1.1 Creación del compartment `demo`](#11-creación-del-compartment-demo)
 - [1.2 Despliegue de Autonomous AI Database + AIDP con Resource Manager](#12-despliegue-de-autonomous-ai-database--aidp-con-resource-manager)
-- [1.3 Acceso a AI Data Platform Workbench](#13-acceso-a-ai-data-platform-workbench)
-- [1.4 Descargar la Wallet de Autonomous Database](#14-descargar-la-wallet-de-autonomous-database)
+- [1.3 Descargar la Wallet de Autonomous Database](#13-descargar-la-wallet-de-autonomous-database)
 
 ### 📥 Módulo 2 · Ingesta y catalogación de datos
 - [2.1 Ingesta en Autonomous AI Database](#21-ingesta-en-autonomous-ai-database)
-- [2.2 Ingesta vía AIDP](#22-ingesta-vía-aidp)
-- [2.3 Creación de catálogos (Bronze / Silver / Gold)](#23-creación-de-catálogos-bronze--silver--gold)
-- [2.4 Importación de notebooks al workspace](#24-importación-de-notebooks-al-workspace)
-- [2.5 Creación y asociación del cluster](#25-creación-y-asociación-del-cluster)
 
 ### 🤖 Módulo 3 · AI Database Private Agent Factory
 - [3.3 Registro inicial y configuración de modelos](#33-registro-inicial-y-configuración-de-modelos)
 - [3.4 Navegación por la plataforma](#34-navegación-por-la-plataforma)
 - [3.5 Lab · Agent Builder — Narrador futbolístico](#35-lab--agent-builder--narrador-futbolístico)
 
-### 💬 Módulo 4 · Ask Oracle Chatbot con Select AI y APEX
-- [4.1 Crear workspace APEX](#41-crear-workspace-apex)
-- [4.2 Importar la aplicación Ask Oracle](#42-importar-la-aplicación-ask-oracle)
-- [4.3 Configurar perfil Select AI](#43-configurar-perfil-select-ai)
-- [4.4 Probar consultas en lenguaje natural](#44-probar-consultas-en-lenguaje-natural)
-
-### 🛠️ Soporte
-- [Troubleshooting de notebooks y catálogo externo](./TROUBLESHOOTING.md)
-
----
 
 <details>
 <summary><strong>🧱 Módulo 1 · Preparación del entorno</strong></summary>
@@ -300,67 +281,7 @@ La contraseña de la Wallet es `wallet_password`; si no se configuró, el stack 
 
 ---
 
-### 1.3 Acceso a AI Data Platform Workbench
-
-Después de que el stack finalice correctamente, abre la instancia de **AI Data Platform** desde OCI Console.
-
-1. Ingresa a la **OCI Console**.
-2. Verifica que estés en la región correcta:
-
-   ```text
-   US Midwest (Chicago)
-   ```
-
-3. En la barra superior de búsqueda, escribe:
-
-   ```text
-   DeepDiveAIDP
-   ```
-
-4. En los resultados, selecciona el recurso **DeepDiveAIDP**.
-5. Valida que el tipo de recurso sea **AI Data Platforms**.
-6. Confirma que el estado sea **Active** y que el recurso pertenezca al compartment `demo`.
-
-Para entrar al Workbench:
-
-1. Haz clic sobre el recurso **DeepDiveAIDP**.
-2. En la página de detalles, selecciona la opción para abrir la plataforma. Puede aparecer como **Open Workbench** o una opción similar para abrir **AI Data Platform Workbench**.
-3. Se abrirá la interfaz de **AI Data Platform Workbench**.
-4. Verifica que en la parte superior aparezca algo similar a:
-
-   ```text
-   AI Data Platform Workbench - DeepDiveAIDP
-   ```
-
-Una vez dentro del Workbench, copia la URL completa desde la barra de direcciones del navegador y guárdala como URL de acceso directo a AIDP para el workshop.
-
-> Para que la URL funcione, el usuario debe estar autenticado en OCI y tener permisos sobre el recurso `DeepDiveAIDP`.
-
-La pantalla principal debería mostrar opciones como:
-
-- Home
-- Master catalog
-- Workspaces
-- Workflow
-- Compute
-- Experiments
-- Credential store
-- Data sharing
-- Roles
-- Settings
-
-Si no aparece el recurso **DeepDiveAIDP**, valida:
-
-- Región: `US Midwest (Chicago)`
-- Compartment: `demo`
-- Resource type: `AI Data Platforms`
-- Estado: `Active`
-
-Si la URL abre un error o no carga, vuelve a entrar desde la OCI Console, abre nuevamente **DeepDiveAIDP**, accede al Workbench y copia una URL nueva.
-
----
-
-### 1.4 Descargar la Wallet de Autonomous Database
+### 1.3 Descargar la Wallet de Autonomous Database
 
 Después de que el stack de Terraform finalice correctamente, descarga la Wallet directamente desde la **Autonomous Database**.
 
