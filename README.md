@@ -76,24 +76,7 @@ Al finalizar, serás capaz de:
 
 ---
 
-## 🧭 Tabla de contenidos
 
-### 🧱 Módulo 1 · Preparación del entorno
-- [1.1 Creación del compartment `demo`](#11-creación-del-compartment-demo)
-- [1.2 Despliegue de Autonomous AI Database + AIDP con Resource Manager](#12-despliegue-de-autonomous-ai-database--aidp-con-resource-manager)
-- [1.3 Descargar la Wallet de Autonomous Database](#13-descargar-la-wallet-de-autonomous-database)
-
-### 📥 Módulo 2 · Ingesta y catalogación de datos
-- [2.1 Ingesta en Autonomous AI Database](#21-ingesta-en-autonomous-ai-database)
-
-### 🤖 Módulo 3 · AI Database Private Agent Factory
-- [3.3 Registro inicial y configuración de modelos](#33-registro-inicial-y-configuración-de-modelos)
-- [3.4 Navegación por la plataforma](#34-navegación-por-la-plataforma)
-- [3.5 Lab · Agent Builder — Narrador futbolístico](#35-lab--agent-builder--narrador-futbolístico)
-
-
-<details>
-<summary><strong>🧱 Módulo 1 · Preparación del entorno</strong></summary>
 
 <div align="center">
 
