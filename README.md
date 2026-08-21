@@ -84,9 +84,9 @@ Luego abre el menú de acciones (**⋯**) del compartment `demo` y selecciona **
 ---
 
 
-### 1.2 Despliegue de Autonomous AI Database + AIDP con Resource Manager
+### 1.2 Despliegue de Autonomous AI Database 
 
-En este workshop, la **Autonomous AI Database 26ai** y la instancia de **AI Data Platform** se despliegan con el stack Terraform desde **OCI Console / Resource Manager**. No se crean manualmente desde los formularios de cada servicio.
+En este workshop, la **Autonomous AI Database 26ai** se despliega con el stack Terraform desde **OCI Console / Resource Manager**. No se crean manualmente desde los formularios de cada servicio.
 
 El stack crea:
 
@@ -193,21 +193,6 @@ La Autonomous queda fija en el código Terraform con estos parámetros:
 
 6. Espera a que el job termine en estado exitoso.
 
-#### Policy IAM creada por el stack
-
-Si `create_aidp = true` y `create_aidp_policy = true`, el stack crea una policy IAM en el root tenancy usando `tenancy_ocid`.
-
-Nombre por defecto:
-
-```hcl
-aidp_policy_name = "DeepDiveAIDPServicePolicy"
-```
-
-La identidad que ejecuta Resource Manager debe tener permiso para crear esa policy en el root tenancy. Si la policy ya existe, usa:
-
-```hcl
-create_aidp_policy = false
-```
 
 #### Outputs del stack
 
@@ -231,7 +216,7 @@ La contraseña de la Wallet es `wallet_password`; si no se configuró, el stack 
 Después de que el stack de Terraform finalice correctamente, descarga la Wallet directamente desde la **Autonomous Database**.
 
 1. Ingresa a la **OCI Console**.
-2. Verifica que estés en la región:
+2. Verifica que estés en la región indicada (Chicago u otra):
 
    ```text
    US Midwest (Chicago)
@@ -307,9 +292,7 @@ Ejecuta como `ADMIN` el script:
 Este script deja todo listo en una ejecución:
 
 - Crea el usuario `ORACLELABS`.
-- Crea y carga `ORACLELABS.BRONZE_WC_MATCHES`.
-- Refresca `ADMIN.BRONZE_WC_MATCHES` para compatibilidad.
-- Habilita ORDS/REST para el esquema `ORACLELABS`. Luego configurar la clave en Database actions -> Database Users
+- Crea la tabla para el ejercicio Cobranza_Morsidad
 
 <details>
   <summary> 👇👇Ver SQL (clic para desplegar)👇👇</summary>
@@ -536,181 +519,6 @@ También puedes inspeccionar la tabla desde el panel lateral → clic derecho �
 
 ---
 
-### 2.2 Ingesta vía AIDP
-
-Regresa al servicio **AI Data Platform** y abre tu instancia haciendo clic en el nombre.
-
-<p align="center"><img width="900" src="./images/4a8a4382-9635-441b-b0f8-95ca3b210718" alt="AIDP"/></p>
-<p align="center"><img width="900" src="./images/104dd9c1-8a43-43c9-9ef3-8ebd5229fea8" alt="Open AIDP"/></p>
-
-Esta es la **home** de AIDP: desde el menú lateral accedes a catálogos, workspace, workflows, agentes y más.
-
-<p align="center"><img width="900" src="./images/580b399f-bd3a-4ef3-9233-5f8f95c59be4" alt="AIDP home"/></p>
-
----
-
-### 2.3 Creación de catálogos (Bronze / Silver / Gold)
-
-#### 🟫 Catálogo Bronze — conexión externa a Autonomous
-
-Desde el menú lateral, haz clic en **Create**.
-
-<p align="center"><img width="900" src="./images/1f78b5f4-13cc-434e-a379-fc297cdc8ade" alt="Create catalog"/></p>
-
-Completa el formulario usando la Wallet descargada desde Autonomous Database:
-
-| Campo | Valor |
-|---|---|
-| **Catalog name** | `DeepDiveCatalog_Bronze` |
-| **Description** | *Descripción del catálogo Bronze* |
-| **Catalog type** | `External catalog` |
-| **External source type** | `Oracle Autonomous AI Transaction Processing` |
-| **External source method** | `Wallet` |
-| **Selected file** | `Wallet_DeepDiveAutonomousDatabase.zip` o `Wallet_DEEPDIVEAIDB.zip` |
-| **Service** | `deepdiveaidb_high` |
-| **Wallet password** | `Wallet*2026Demo` |
-| **Username** | `ADMIN` |
-| **Password** | `Workshop@123` |
-
-
-Usa **Test Connection** antes de crear. Cuando sea exitosa, confirma.
-
-> **Importante:** `Wallet password` y `Password` no son lo mismo. En `Wallet password` se coloca la contraseña de la Wallet. En `Password` se coloca la contraseña del usuario de base de datos; en este workshop es `Workshop@123`.
-
-El resultado esperado de **Test Connection** es:
-
-```text
-Connection status: Successful
-```
-
-Si la conexión es exitosa, haz clic en **Create**.
-
-<p align="center"><img width="600" src="./images/bf8b6c9a-dd04-41e3-8972-bf173f9f2f06" alt="Test connection"/></p>
-<p align="center"><img width="700" src="./images/40831924-3c9a-449d-a14f-913977ccba9e" alt="Creating"/></p>
-
-Al finalizar verás las tablas existentes en Autonomous con su esquema.
-
-> 💡 Si las tablas no aparecen en el catálogo en el primer intento, actualiza/refresca el catálogo y vuelve a validar.
->
-> - <details>
->   <summary>👇👇👇Ver referencia visual para actualizar el catálogo</summary>
->
->   ![actualiza catalogo.png](images/actualiza%20catalogo.png)
->   </details>
-
-
-![catalogoconoraclelabs.png](images/catalogoconoraclelabs.png)
-
-
-#### 🥈 Catálogo Silver (Plata) — Standard
-
-| Campo | Valor |
-|---|---|
-| **Catalog name** | `deepdivecatalog_prata` |
-| **Description** | *Catálogo de datos limpios / Silver layer* |
-| **Catalog type** | `Standard catalog` |
-| **Compartment** | `demo` |
-
-<p align="center"><img width="500" src="./images/image 41.png" alt="Silver"/></p>
-
-![catalogoadd.png](images/catalogoadd.png)
-
-#### 🥇 Catálogo Gold (Oro) — Standard
-
-| Campo | Valor |
-|---|---|
-| **Catalog name** | `deepdivecatalog_ouro` |
-| **Description** | *Catálogo de datos consumibles / Gold layer* |
-| **Catalog type** | `Standard catalog` |
-| **Compartment** | `demo` |
-
-<p align="center"><img width="500" src="./images/image 42.png" alt="Gold"/></p>
-
----
-
-### 2.4 Importación de notebooks al workspace
-
-Accede al **Workspace** desde el menú lateral.
-
-<p align="center"><img width="900" src="./images/7d79eb5d-b225-4e3b-ab52-1d16164bc6c8" alt="Workspace"/></p>
-
-El workspace incluye una carpeta `Shared` con ejemplos.
-
-Los notebooks de este laboratorio están en la **raíz del repositorio** (al mismo nivel que este `README.md`):
-
-- [Descargar `session1-AIDP-ES.ipynb`](./session1-AIDP-ES.ipynb)
-- [Descargar `session2-AI_tradicional-ES.ipynb`](./session2-AI_tradicional-ES.ipynb)
-
-
-Después de descargarlos, súbelos al Workspace con el botón **Upload**.
-
-<p align="center"><img width="900" src="./images/37850300-084e-432b-84d9-7fd5cc83948a" alt="Upload"/></p>
-<p align="center"><img width="700" src="./images/c48bb726-67b4-4d90-b247-7292d708466a" alt="Upload dialog"/></p>
-
-Una vez cargado, ábrelo haciendo clic en el nombre del notebook.
-
-<p align="center"><img width="600" src="./images/0a94086a-bf69-4213-ad3f-1a511f3e2702" alt="Notebook"/></p>
-
----
-
-### 2.5 Creación y asociación del cluster
-
-Una vez cargados los notebooks, abre específicamente `session1-AIDP-ES.ipynb`. Al abrir ese notebook verás **No cluster attached** en la parte superior. Haz clic en el botón de cluster (arriba a la derecha) → **Create Cluster**.
-
-> 💡 Si al iniciar notebooks aparece un error de esquema/catálogo (por ejemplo `SCHEMA_NOT_FOUND` con `admin`), revisa la guía de [Troubleshooting](./TROUBLESHOOTING.md).
-
-<p align="center"><img width="900" src="./images/624bb611-e2c6-45b4-96e7-070b9f42e091" alt="Create cluster"/></p>
-
-Nombra el cluster como `DeepDiveCluster` y deja la configuración por defecto → **Create**.
-
-<p align="center"><img width="800" src="./images/5c162ec8-ef44-47b9-b82e-1b834e1f079a" alt="Cluster form"/></p>
-
-Si no se adjunta automáticamente, usa **Attach a cluster** y selecciona el que creaste.
-
-<p align="center"><img width="800" src="./images/09977d3e-af1c-49bf-9a81-9ad2ba7431f6" alt="Attach"/></p>
-
-El cluster debe quedar **Active** en el notebook:
-
-<p align="center">
-<img width="400" src="./images/ac673755-9172-4751-b9db-e974a39baa82" alt="Cluster status"/>
-&nbsp;&nbsp;
-<img width="400" src="./images/447118ef-acff-4b1c-aa8b-c32c9a213cd4" alt="Cluster active"/>
-<img width="400" src="./images/image 46.png" alt="Cluster active"/>
-
-
-Repite el mismo proceso de upload para el archivo Jupyter de la segunda sesión.
-<p align="center">
-<img src="./images/ntbk2.jpg" alt="Cluster active"/>
-
-Con eso tendrás todos los notebooks necesarios para realizar las sesiones prácticas directamente en tu workspace.
-
-<p align="center">
-<img src="./images/ntbk2_todo.jpg" alt="Cluster active"/>
-
-
-
-Una vez el cluster se encuentre creado, podemos seleccionar el cluster en el panel izquierdo de la plataforma AIDP y hacer click en lel panel Library.
-
-<p align="center">
-<img src="./images/image 43.png" alt="Cluster active"/>
-
-<p align="center">
-<img src="./images/image 44.png" alt="Cluster active"/>
-
-
-
-Cuando el estado sea installed, tendrás un entorno completamente configurado y puedes seguir las instrucciones de cada notebook junto con el instructor para ejecutar los laboratorios.
-
-Para ejecutar cada celda del notebook, haz clic en el botón **Play** o usa el atajo **Ctrl + Enter**.
-</p>
-
-> ✅ **Checkpoint Módulo 2** — Con los datos cargados, los tres catálogos creados y el cluster activo, el entorno está listo para las sesiones de notebooks 
-
----
-
-</details>
-
-<details>
 <summary><strong>🤖 Módulo 3 · AI Database Private Agent Factory</strong></summary>
 
 <div align="center">
