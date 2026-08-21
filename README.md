@@ -491,6 +491,25 @@ Antes de ejecutar, selecciona primero el código y luego usa el botón verde **R
 Via autonomous database cargar el archivo cobranza_morosidad.csv
 [Descargar datos `](./tools/cobranza_morosidad.csv)
 
+Ingresa al Autonomous y seleccionar Data Load
+
+![alt text](imagen.png)
+
+Luego cargar el archivo en la opcion: Cargar Datos (Archivo Local)
+
+![alt text](imagen-1.png)
+
+Cargue el archivo descargado (cobranza morosidad.csv)
+
+Editar para que el nombre de la tabla sea COBRANZA_MOROSIDAD (Opcion Lapiz)
+
+![alt text](imagen-3.png)
+
+Darle Click a INICIO y verificar que se cargó la data
+
+![alt text](imagen-2.png)
+
+
 Validar que se carguen completamente el archivo
 
 ```sql
