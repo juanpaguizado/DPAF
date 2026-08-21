@@ -261,9 +261,6 @@ Guarda el archivo `.zip` en una ubicación segura. Esta Wallet se usará en paso
 <div align="center">
 
 # 📥 Módulo 2 · Ingesta y catalogación de datos
-
-*Trabajaremos con una arquitectura medallón: **Bronze** (datos crudos) → **Silver** (limpios) → **Gold** (listos para consumo).*
-
 </div>
 
 ---
@@ -287,7 +284,7 @@ Ejecuta como `ADMIN` el script:
 
 Este script deja todo listo en una ejecución:
 
-- Crea el usuario `ORACLELABS`.
+- Crea y asigna permisos.
 - Crea la tabla para el ejercicio Cobranza_Morsidad
 
 <details>
@@ -342,7 +339,7 @@ END;
 -- 3) Create table in ORACLELABS
 BEGIN
   EXECUTE IMMEDIATE q'[
-    CREATE TABLE ORACLELABS.BRONZE_WC_MATCHES (
+    CREATE TABLE ORACLELABS.COBRANZA_MOROSIDAD (
       key_id NUMBER,
       tournament_id VARCHAR2(50),
       tournament_name VARCHAR2(200),
@@ -393,17 +390,7 @@ END;
 -- 4) Load CSV into ORACLELABS
 BEGIN
   EXECUTE IMMEDIATE 'ALTER SESSION SET CURRENT_SCHEMA = ORACLELABS';
-  EXECUTE IMMEDIATE 'TRUNCATE TABLE BRONZE_WC_MATCHES';
-
-  DBMS_CLOUD.COPY_DATA(
-    table_name      => 'BRONZE_WC_MATCHES',
-    credential_name => NULL,
-    file_uri_list   => 'https://objectstorage.us-chicago-1.oraclecloud.com/n/axzegnybkron/b/DeepDiveWorkshopData/o/worldcup_matches.csv',
-    format          => json_object(
-      'type' VALUE 'CSV',
-      'skipheaders' VALUE '1'
-    )
-  );
+  EXECUTE IMMEDIATE 'TRUNCATE TABLE COBRANZA_MOROSIDAD';
 
   EXECUTE IMMEDIATE 'ALTER SESSION SET CURRENT_SCHEMA = ADMIN';
 EXCEPTION
@@ -416,7 +403,7 @@ COMMIT;
 
 -- 5) Refresh ADMIN table from ORACLELABS
 BEGIN
-  EXECUTE IMMEDIATE 'DROP TABLE ADMIN.BRONZE_WC_MATCHES PURGE';
+  EXECUTE IMMEDIATE 'DROP TABLE ADMIN.COBRANZA_MOROSIDAD PURGE';
 EXCEPTION
   WHEN OTHERS THEN
     IF SQLCODE != -942 THEN
@@ -425,9 +412,9 @@ EXCEPTION
 END;
 /
 
-CREATE TABLE ADMIN.BRONZE_WC_MATCHES AS
+CREATE TABLE ADMIN.COBRANZA_MOROSIDAD AS
 SELECT *
-FROM ORACLELABS.BRONZE_WC_MATCHES;
+FROM ORACLELABS.COBRANZA_MOROSIDAD;
 
 COMMIT;
 
@@ -450,9 +437,9 @@ BEGIN
   ORDS.ENABLE_OBJECT(
     p_enabled        => TRUE,
     p_schema         => 'ORACLELABS',
-    p_object         => 'BRONZE_WC_MATCHES',
+    p_object         => 'COBRANZA_MOROSIDAD',
     p_object_type    => 'TABLE',
-    p_object_alias   => 'bronze_wc_matches',
+    p_object_alias   => 'COBRANZA_MOROSIDAD',
     p_auto_rest_auth => FALSE
   );
 EXCEPTION
@@ -468,10 +455,10 @@ FROM dba_users
 WHERE username = 'ORACLELABS';
 
 SELECT COUNT(*) AS total_oraclelabs
-FROM ORACLELABS.BRONZE_WC_MATCHES;
+FROM ORACLELABS.COBRANZA_MOROSIDAD;
 
 SELECT COUNT(*) AS total_admin
-FROM ADMIN.BRONZE_WC_MATCHES;
+FROM ADMIN.COBRANZA_MOROSIDAD;
 
 -- 8) Print REST URLs
 DECLARE
@@ -483,7 +470,7 @@ BEGIN
   DBMS_OUTPUT.PUT_LINE('Base schema URL (estimated):');
   DBMS_OUTPUT.PUT_LINE('https://' || l_db_name || '.adb.us-chicago-1.oraclecloudapps.com/ords/oraclelabs/');
   DBMS_OUTPUT.PUT_LINE('Table resource URL:');
-  DBMS_OUTPUT.PUT_LINE('https://' || l_db_name || '.adb.us-chicago-1.oraclecloudapps.com/ords/oraclelabs/bronze_wc_matches/');
+  DBMS_OUTPUT.PUT_LINE('https://' || l_db_name || '.adb.us-chicago-1.oraclecloudapps.com/ords/oraclelabs/COBRANZA_MOROSIDAD/');
   DBMS_OUTPUT.PUT_LINE('If URL does not respond, take Database Actions host and append /ords/oraclelabs/');
 END;
 /

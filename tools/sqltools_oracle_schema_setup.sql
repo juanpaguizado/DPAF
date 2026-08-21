@@ -53,45 +53,57 @@ END;
 -- 3) Create table in ORACLELABS
 BEGIN
   EXECUTE IMMEDIATE q'[
-    CREATE TABLE ORACLELABS.BRONZE_WC_MATCHES (
-      key_id NUMBER,
-      tournament_id VARCHAR2(50),
-      tournament_name VARCHAR2(200),
-      match_id VARCHAR2(100),
-      match_name VARCHAR2(200),
-      stage_name VARCHAR2(100),
-      group_name VARCHAR2(100),
-      group_stage NUMBER,
-      knockout_stage NUMBER,
-      replayed NUMBER,
-      replay NUMBER,
-      match_date VARCHAR2(50),
-      match_time VARCHAR2(50),
-      stadium_id VARCHAR2(50),
-      stadium_name VARCHAR2(200),
-      city_name VARCHAR2(100),
-      country_name VARCHAR2(100),
-      home_team_id VARCHAR2(50),
-      home_team_name VARCHAR2(100),
-      home_team_code VARCHAR2(10),
-      away_team_id VARCHAR2(50),
-      away_team_name VARCHAR2(100),
-      away_team_code VARCHAR2(10),
-      score VARCHAR2(20),
-      home_team_score NUMBER,
-      away_team_score NUMBER,
-      home_team_score_margin NUMBER,
-      away_team_score_margin NUMBER,
-      extra_time NUMBER,
-      penalty_shootout NUMBER,
-      score_penalties VARCHAR2(20),
-      home_team_score_penalties NUMBER,
-      away_team_score_penalties NUMBER,
-      result VARCHAR2(50),
-      home_team_win NUMBER,
-      away_team_win NUMBER,
-      draw NUMBER
-    )
+    CREATE TABLE COBRANZA_MOROSIDAD(
+    ID_CASO                    VARCHAR2(64)   NOT NULL,
+    CLIENTE_SINTETICO          VARCHAR2(64),
+    CUENTA_ID                  VARCHAR2(64),
+    SEGMENTO_RIESGO            VARCHAR2(64),
+    PRODUCTO_CREDITICIO        VARCHAR2(64),
+    SALDO_PENDIENTE_PEN        NUMBER(14,2),
+    DIAS_MORA                  NUMBER(4),
+    FECHA_VENCIMIENTO          DATE,
+    ESTADO_COBRANZA            VARCHAR2(64),
+    ULTIMA_GESTION             VARCHAR2(64),
+    DOCUMENTO_CLIENTE          VARCHAR2(64),
+    NOMBRE_COMPLETO            VARCHAR2(128),
+    TELEFONO                   VARCHAR2(32),
+    EMAIL                      VARCHAR2(128),
+    DIRECCION                  VARCHAR2(256),
+    FECHA_ORIGEN_DEUDA         DATE,
+    MONTO_ORIGINAL             NUMBER(14,2),
+    INTERES_MORATORIO          NUMBER(14,2),
+    GASTOS_COBRANZA            NUMBER(14,2),
+    MONTO_TOTAL_EXIGIBLE       NUMBER(14,2),
+    CUOTAS_PENDIENTES          NUMBER(4),
+    CUOTA_MENSUAL              NUMBER(14,2),
+    FECHA_PROXIMA_CUOTA        DATE,
+    FECHA_ULTIMO_PAGO          DATE,
+    MONTO_ULTIMO_PAGO          NUMBER(14,2),
+    MONTO_PAGADO_ACUMULADO     NUMBER(14,2),
+   CANAL_PREFERIDO_CONTACTO   VARCHAR2(64),
+    NUMERO_INTENTOS_CONTACTO   NUMBER(3),
+    FECHA_ULTIMO_CONTACTO      DATE,
+    RESULTADO_ULTIMO_CONTACTO  VARCHAR2(128),
+    PROMESA_PAGO_FECHA         DATE,
+    PROMESA_PAGO_MONTO         NUMBER(14,2),
+    PROMESA_PAGO_CUMPLIDA      VARCHAR2(16),
+    GESTOR_COBRANZA            VARCHAR2(64),
+    AGENCIA_O_CARTERA          VARCHAR2(64),
+    PRIORIDAD_GESTION          VARCHAR2(32),
+    ETAPA_COBRANZA             VARCHAR2(32),
+    ACUERDO_REFINANCIACION     VARCHAR2(16),
+    FECHA_REFINANCIACION       DATE,
+    SALDO_REFINANCIADO         NUMBER(14,2),
+    RIESGO_INCUMPLIMIENTO      NUMBER(4,2),
+    SCORE_COBRANZA             NUMBER(4),
+    FECHA_ACTUALIZACION        DATE,
+    USUARIO_ACTUALIZACION      VARCHAR2(64),
+    DEPARTAMENTO               VARCHAR2(64),
+    PROVINCIA                  VARCHAR2(64),
+    DISTRITO                   VARCHAR2(64),
+    CONSTRAINT PK_COBRANZA_MOROSIDAD
+        PRIMARY KEY (ID_CASO)
+   )
   ]';
 EXCEPTION
   WHEN OTHERS THEN
@@ -101,33 +113,10 @@ EXCEPTION
 END;
 /
 
--- 4) Load CSV into ORACLELABS
-BEGIN
-  EXECUTE IMMEDIATE 'ALTER SESSION SET CURRENT_SCHEMA = ORACLELABS';
-  EXECUTE IMMEDIATE 'TRUNCATE TABLE BRONZE_WC_MATCHES';
-
-  DBMS_CLOUD.COPY_DATA(
-    table_name      => 'BRONZE_WC_MATCHES',
-    credential_name => NULL,
-    file_uri_list   => 'https://objectstorage.us-chicago-1.oraclecloud.com/n/axzegnybkron/b/DeepDiveWorkshopData/o/worldcup_matches.csv',
-    format          => json_object(
-      'type' VALUE 'CSV',
-      'skipheaders' VALUE '1'
-    )
-  );
-
-  EXECUTE IMMEDIATE 'ALTER SESSION SET CURRENT_SCHEMA = ADMIN';
-EXCEPTION
-  WHEN OTHERS THEN
-    EXECUTE IMMEDIATE 'ALTER SESSION SET CURRENT_SCHEMA = ADMIN';
-    RAISE;
-END;
-/
-COMMIT;
 
 -- 5) Refresh ADMIN table from ORACLELABS
 BEGIN
-  EXECUTE IMMEDIATE 'DROP TABLE ADMIN.BRONZE_WC_MATCHES PURGE';
+  EXECUTE IMMEDIATE 'DROP TABLE ADMIN.COBRANZA_MOROSIDAD PURGE';
 EXCEPTION
   WHEN OTHERS THEN
     IF SQLCODE != -942 THEN
@@ -136,9 +125,9 @@ EXCEPTION
 END;
 /
 
-CREATE TABLE ADMIN.BRONZE_WC_MATCHES AS
+CREATE TABLE ADMIN.COBRANZA_MOROSIDAD AS
 SELECT *
-FROM ORACLELABS.BRONZE_WC_MATCHES;
+FROM ORACLELABS.COBRANZA_MOROSIDAD;
 
 COMMIT;
 
@@ -161,9 +150,9 @@ BEGIN
   ORDS.ENABLE_OBJECT(
     p_enabled        => TRUE,
     p_schema         => 'ORACLELABS',
-    p_object         => 'BRONZE_WC_MATCHES',
+    p_object         => 'COBRANZA_MOROSIDAD',
     p_object_type    => 'TABLE',
-    p_object_alias   => 'bronze_wc_matches',
+    p_object_alias   => 'COBRANZA_MOROSIDAD',
     p_auto_rest_auth => FALSE
   );
 EXCEPTION
@@ -179,10 +168,10 @@ FROM dba_users
 WHERE username = 'ORACLELABS';
 
 SELECT COUNT(*) AS total_oraclelabs
-FROM ORACLELABS.BRONZE_WC_MATCHES;
+FROM ORACLELABS.COBRANZA_MOROSIDAD;
 
 SELECT COUNT(*) AS total_admin
-FROM ADMIN.BRONZE_WC_MATCHES;
+FROM ADMIN.COBRANZA_MOROSIDAD;
 
 -- 8) Print REST URLs
 DECLARE
@@ -194,7 +183,7 @@ BEGIN
   DBMS_OUTPUT.PUT_LINE('Base schema URL (estimated):');
   DBMS_OUTPUT.PUT_LINE('https://' || l_db_name || '.adb.us-chicago-1.oraclecloudapps.com/ords/oraclelabs/');
   DBMS_OUTPUT.PUT_LINE('Table resource URL:');
-  DBMS_OUTPUT.PUT_LINE('https://' || l_db_name || '.adb.us-chicago-1.oraclecloudapps.com/ords/oraclelabs/bronze_wc_matches/');
+  DBMS_OUTPUT.PUT_LINE('https://' || l_db_name || '.adb.us-chicago-1.oraclecloudapps.com/ords/oraclelabs/COBRANZA_MOROSIDAD/');
   DBMS_OUTPUT.PUT_LINE('If URL does not respond, take Database Actions host and append /ords/oraclelabs/');
 END;
 /
