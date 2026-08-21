@@ -777,16 +777,16 @@ Confirma con **Add New Source**.
 
 ---
 
-### 3.5 Lab · Agent Builder — Narrador futbolístico
+### 3.5 Lab · Agent Builder — Especialista en Cobranzas y Morosidad
 
 Construirás un flujo visual en **Agent Builder** en dos etapas:
 
-1. **Parte 1** — agente narrador simple (4 bloques).
+1. **Parte 1** — agente espacialista  simple (4 bloques).
 2. **Parte 2** — flujo completo con Text‑to‑SQL sobre la base de datos real.
 
 ---
 
-#### ⚽ Parte 1 · Agente narrador futbolístico
+#### ⚽ Parte 1 · Agente especialista simple
 
 Flujo mínimo y funcional con cuatro bloques: `Chat input` → `Prompt` → `Agent` → `Chat output`.
 
@@ -807,14 +807,12 @@ Sección **INPUTS** → arrastra **Chat input** al lienzo. Expone la variable `M
 Sección **INPUTS** → arrastra **Prompt**. Configura el campo **Template**:
 
 ```text
-Eres un narrador deportivo experto en fútbol, apasionado y elocuente.
-Tu misión es transformar cualquier información o dato que recibas en una
-emocionante narración futbolística, como si estuvieras transmitiendo un
-partido en vivo por la radio.
+Eres un especialista en cobranzas de clientes, tienes una personalidad formal y pegada los numeros.
+Tu misión es transformar cualquier información o dato que recibas en unadatos reales que permitan entender el estatus actual de las cobranzas y morosidad
 
 No importa si el input es un resultado, una lista de números, un nombre
-o cualquier otro dato: conviértelo en una narración dinámica, con emoción
-y vocabulario propio del fútbol.
+o cualquier otro dato: conviértelo en una narración 
+y vocabulario propio del cobranzas.
 ```
 
 > 💡 Sin variables `{{}}`. La salida **Prompt message** se conectará al campo **Custom instructions** del `Agent`.
@@ -825,7 +823,7 @@ Sección **AGENTS** → arrastra **Agent** y configura:
 
 | Campo | Valor |
 |---|---|
-| **Select LLM to use** | El mismo LLM conversacional que configuraste antes. Recomendado: `cohere.command-r-08-2024 (oci)` si aparece disponible en tu región |
+| **Select LLM to use** | El mismo LLM conversacional que configuraste antes. Recomendado: `cohere.command-r-08-2024 (oci)` si aparece disponible en tu región, sino no hay problema buscaremos alguna disponible |
 | **Temperature** | `0.01` |
 | **Agent description** | `Agent` |
 
@@ -844,9 +842,7 @@ Sección **OUTPUTS** → arrastra **Chat output** y conecta `Agent.Message` → 
 
 **Save** → **Playground**. Prueba con, por ejemplo:
 
-> `3 - 1`
-> `Messi, Mbappé, Vinicius`
-> `El partido duró 90 minutos y hubo 4 tarjetas amarillas`
+> `Los procesos de cobranzas son algunas veces complicados`
 
 <p align="center"><img width="900" src="./images/image 36.png" alt="Playground P1"/></p>
 
@@ -861,13 +857,13 @@ Sección **OUTPUTS** → arrastra **Chat output** y conecta `Agent.Message` → 
 
 #### ⚽ Parte 2 · Flujo completo con Text‑to‑SQL
 
-Extenderemos el flujo para que reciba preguntas, genere SQL, lo ejecute contra la base de datos real y responda como narración futbolística.
+Extenderemos el flujo para que reciba preguntas, genere SQL, lo ejecute contra la base de datos real y responda como narración.
 
 <p align="center"><img width="900" src="./images/image 38.png" alt="Flujo Parte 2"/></p>
 
 ##### 2.1 · Crear el Data Source (si no ejecutaste el Lab 3.5)
 
-Para esta parte necesitas una conexión de tipo **Database** disponible en DPAF. Si ya la creaste en el Lab **3.5**, puedes reutilizarla y continuar al paso siguiente.
+Para esta parte necesitas una conexión de tipo **Database** disponible en DPAF. Si ya la creaste en el Lab anteriormente, puedes reutilizarla y continuar al paso siguiente.
 
 En el panel izquierdo selecciona **Data Source** y crea uno de tipo **Database**:
 
@@ -894,51 +890,66 @@ Seguimos trabajando sobre el flujo de la Parte 1.
 Añade un bloque **Prompt** con este **Template**:
 
 ```text
+Eres un agente que genera consultas SQL para responder a la siguiente 
+AGENTE RIESGO MORAS
+
 Eres un agente que genera consultas SQL para responder a la siguiente pregunta:
 
 {{question}}
 
-Tienes una tabla de datos de partidos de fútbol con la siguiente estructura.
+Tienes una tabla de datos de partidos de Cobranza  y Morosidad con la siguiente estructura.
 
-CREATE TABLE "ADMIN"."BRONZE_WC_MATCHES"
- ( "KEY_ID"                    NUMBER,
-   "TOURNAMENT_ID"             VARCHAR2(50),
-   "TOURNAMENT_NAME"           VARCHAR2(200),
-   "MATCH_ID"                  VARCHAR2(100),
-   "MATCH_NAME"                VARCHAR2(200),
-   "STAGE_NAME"                VARCHAR2(100),
-   "GROUP_NAME"                VARCHAR2(100),
-   "GROUP_STAGE"               NUMBER,
-   "KNOCKOUT_STAGE"            NUMBER,
-   "REPLAYED"                  NUMBER,
-   "REPLAY"                    NUMBER,
-   "MATCH_DATE"                VARCHAR2(50),
-   "MATCH_TIME"                VARCHAR2(50),
-   "STADIUM_ID"                VARCHAR2(50),
-   "STADIUM_NAME"              VARCHAR2(200),
-   "CITY_NAME"                 VARCHAR2(100),
-   "COUNTRY_NAME"              VARCHAR2(100),
-   "HOME_TEAM_ID"              VARCHAR2(50),
-   "HOME_TEAM_NAME"            VARCHAR2(100),
-   "HOME_TEAM_CODE"            VARCHAR2(10),
-   "AWAY_TEAM_ID"              VARCHAR2(50),
-   "AWAY_TEAM_NAME"            VARCHAR2(100),
-   "AWAY_TEAM_CODE"            VARCHAR2(10),
-   "SCORE"                     VARCHAR2(20),
-   "HOME_TEAM_SCORE"           NUMBER,
-   "AWAY_TEAM_SCORE"           NUMBER,
-   "HOME_TEAM_SCORE_MARGIN"    NUMBER,
-   "AWAY_TEAM_SCORE_MARGIN"    NUMBER,
-   "EXTRA_TIME"                NUMBER,
-   "PENALTY_SHOOTOUT"          NUMBER,
-   "SCORE_PENALTIES"           VARCHAR2(20),
-   "HOME_TEAM_SCORE_PENALTIES" NUMBER,
-   "AWAY_TEAM_SCORE_PENALTIES" NUMBER,
-   "RESULT"                    VARCHAR2(50),
-   "HOME_TEAM_WIN"             NUMBER,
-   "AWAY_TEAM_WIN"             NUMBER,
-   "DRAW"                      NUMBER
- );
+CREATE TABLE COBRANZA_MOROSIDAD(
+    ID_CASO                    VARCHAR2(64)   NOT NULL,
+    CLIENTE_SINTETICO          VARCHAR2(64),
+    CUENTA_ID                  VARCHAR2(64),
+    SEGMENTO_RIESGO            VARCHAR2(64),
+    PRODUCTO_CREDITICIO        VARCHAR2(64),
+    SALDO_PENDIENTE_PEN        NUMBER(14,2),
+    DIAS_MORA                  NUMBER(4),
+    FECHA_VENCIMIENTO          DATE,
+    ESTADO_COBRANZA            VARCHAR2(64),
+    ULTIMA_GESTION             VARCHAR2(64),
+    DOCUMENTO_CLIENTE          VARCHAR2(64),
+    NOMBRE_COMPLETO            VARCHAR2(128),
+    TELEFONO                   VARCHAR2(32),
+    EMAIL                      VARCHAR2(128),
+    DIRECCION                  VARCHAR2(256),
+    FECHA_ORIGEN_DEUDA         DATE,
+    MONTO_ORIGINAL             NUMBER(14,2),
+    INTERES_MORATORIO          NUMBER(14,2),
+    GASTOS_COBRANZA            NUMBER(14,2),
+    MONTO_TOTAL_EXIGIBLE       NUMBER(14,2),
+    CUOTAS_PENDIENTES          NUMBER(4),
+    CUOTA_MENSUAL              NUMBER(14,2),
+    FECHA_PROXIMA_CUOTA        DATE,
+    FECHA_ULTIMO_PAGO          DATE,
+    MONTO_ULTIMO_PAGO          NUMBER(14,2),
+    MONTO_PAGADO_ACUMULADO     NUMBER(14,2),
+   CANAL_PREFERIDO_CONTACTO   VARCHAR2(64),
+    NUMERO_INTENTOS_CONTACTO   NUMBER(3),
+    FECHA_ULTIMO_CONTACTO      DATE,
+    RESULTADO_ULTIMO_CONTACTO  VARCHAR2(128),
+    PROMESA_PAGO_FECHA         DATE,
+    PROMESA_PAGO_MONTO         NUMBER(14,2),
+    PROMESA_PAGO_CUMPLIDA      VARCHAR2(16),
+    GESTOR_COBRANZA            VARCHAR2(64),
+    AGENCIA_O_CARTERA          VARCHAR2(64),
+    PRIORIDAD_GESTION          VARCHAR2(32),
+    ETAPA_COBRANZA             VARCHAR2(32),
+    ACUERDO_REFINANCIACION     VARCHAR2(16),
+    FECHA_REFINANCIACION       DATE,
+    SALDO_REFINANCIADO         NUMBER(14,2),
+    RIESGO_INCUMPLIMIENTO      NUMBER(4,2),
+    SCORE_COBRANZA             NUMBER(4),
+    FECHA_ACTUALIZACION        DATE,
+    USUARIO_ACTUALIZACION      VARCHAR2(64),
+    DEPARTAMENTO               VARCHAR2(64),
+    PROVINCIA                  VARCHAR2(64),
+    DISTRITO                   VARCHAR2(64),
+  CONSTRAINT PK_COBRANZA_MOROSIDAD
+        PRIMARY KEY (ID_CASO)
+);
 
 Debes generar únicamente código SQL, sin comentarios (ni `--` ni `/** */`).
 Cualquier texto adicional constituye un error grave. No finalices el SQL con `;`.
@@ -946,11 +957,11 @@ Cualquier texto adicional constituye un error grave. No finalices el SQL con `;`
 Usa solo las columnas listadas en la estructura de la tabla.
 
 Ejemplo:
-Pregunta: ¿Cuántos partidos se jugaron en Doha?
+Pregunta: ¿Cuántos estados de cobranza tiene PENDIENTE?
 Respuesta esperada:
-SELECT COUNT(*) AS numero_de_partidos_en_doha
-FROM "ADMIN"."BRONZE_WC_MATCHES"
-WHERE "CITY_NAME" LIKE '%Doha%'
+SELECT count(*)
+FROM COBRANZA_MOROSIDAD
+WHERE UPPER(ESTADO_COBRANZA) = 'PENDIENTE';
 ```
 
 Conecta `Chat input.Message` → `Prompt.question`.
@@ -985,9 +996,9 @@ Sección **DATA** → añade **SQL query**.
 Añade un segundo bloque **Prompt** que combine pregunta + SQL + datos:
 
 ```text
-Eres un asistente experto en fútbol, con personalidad cercana y entusiasta.
+Eres un asistente experto en Cobranzas y Morosidad de clientes , con personalidad formal y controladora.
 Tu rol es transformar datos crudos en respuestas claras, narrativas y fáciles
-de entender, como si le explicaras a un amigo apasionado del fútbol.
+de entender, como si le explicaras a un amigo financiero.
 
 El sistema ha ejecutado la consulta:
 {{sql}}
@@ -996,8 +1007,8 @@ Los datos disponibles para responder son:
 {{datos}}
 
 Instrucciones:
-- Si la pregunta no está relacionada con fútbol, responde amablemente que solo
-  puedes ayudar con preguntas sobre fútbol y no continúes procesando la solicitud.
+- Si la pregunta no está relacionada con morosidad cobranzas, responde amablemente que solo
+  puedes ayudar con preguntas sobre Morosidady no continúes procesando la solicitud.
 - Responde ÚNICAMENTE con la información contenida en {{datos}} — no uses
   conocimiento externo ni completes con datos que no estén en el resultado.
 - Si {{datos}} no contiene suficiente información, dilo claramente.
@@ -1036,11 +1047,12 @@ Verifica que `Agent.Message` → `Chat output.Message`.
 
 En el **Playground**:
 
-> 💬 `¿Cuántos partidos se jugaron en Doha?`
+> 💬 `Muéstrame los 10 clientes con mayor monto total exigible.`
 > 
-> 💬 `¿Qué equipo anotó más goles de local?`
+> 💬 `¿Qué porcentaje de la cartera tiene riesgo de incumplimiento mayor a 0.70?
+`
 > 
-> 💬 `¿Cuál fue el partido con más goles en total?`
+> 💬 `¿Cuánto saldo refinanciado existe y en qué departamentos se concentra?`
 
 El agente consultará la base de datos y devolverá la respuesta en formato narrativo, incluyendo tabla de datos y el SQL ejecutado. 🎉
 
@@ -1052,14 +1064,10 @@ El agente consultará la base de datos y devolverá la respuesta en formato narr
 
 Has construido, de extremo a extremo, una plataforma de datos moderna con IA generativa sobre Oracle Cloud Infrastructure:
 
-- ✅ Infraestructura: Autonomous AI Database 26ai + AI Data Platform
-- ✅ Arquitectura medallón: catálogos Bronze / Silver / Gold
-- ✅ Notebooks ejecutados sobre cluster de AIDP
+- ✅ Infraestructura: Autonomous AI Database 26ai  
 - ✅ Factoría privada de agentes desplegada desde Marketplace
 - ✅ Agente **Text‑to‑SQL** sin escribir código
 - ✅ Flujo conversacional con **Agent Builder**, integrado con la base de datos real
-- ✅ Aplicación **Ask Oracle** en APEX para consultar Autonomous con Select AI
-
 ---
 
 ## 🔗 Recursos adicionales
