@@ -753,15 +753,6 @@ Haz clic en **Test Connection** y luego **Add Database Source**.
 
 **Selección de la base de datos** — elige la fuente configurada.
 
-**Selección de tablas** — usa la barra de búsqueda para encontrar las tablas (el nombre de cada tabla corresponde al archivo CSV cargado, sin la extensión `.csv`).
-
-<p align="center"><img src="./images/dpaf_image15.png" alt="Tables 1"/></p>
-<p align="center"><img src="./images/dpaf_image16.png" alt="Tables 2"/></p>
-
-> **Tabla a seleccionar:** `BRONZE_WC_MATCHES`.
->
-> En este workshop, la tabla utilizada por el agente es `BRONZE_WC_MATCHES`. No se debe seleccionar `DATOS`.
-
 Confirma con **Add New Source**.
 
 <p align="center"><img src="./images/dpaf_image17.png" alt="Confirm"/></p>
@@ -783,7 +774,7 @@ Construirás un flujo visual en **Agent Builder** en dos etapas:
 
 Flujo mínimo y funcional con cuatro bloques: `Chat input` → `Prompt` → `Agent` → `Chat output`.
 
-<p align="center"><img width="900" src="./images/image 37.png" alt="Flujo Parte 1"/></p>
+<p align="center"><img width="900" src="./images/agentesimple.png" alt="Flujo Parte 1"/></p>
 
 ##### 1.1 · Crear un nuevo flujo
 
@@ -835,18 +826,9 @@ Sección **OUTPUTS** → arrastra **Chat output** y conecta `Agent.Message` → 
 
 **Save** → **Playground**. Prueba con, por ejemplo:
 
-> `Los procesos de cobranzas son algunas veces complicados`
+> `que dificiles son cobrar las moras`
 
-<p align="center"><img width="900" src="./images/image 36.png" alt="Playground P1"/></p>
-
-- <details>
-  <summary><strong>Referencia visual del flujo final</strong></summary>
-
-  <br>
-
-  ![Flujo final del laboratorio 3.6.1](images/img%2C%20flujo%20final%203-6-1.png)
-  </details>
----
+<p align="center"><img width="900" src="./images/resultadoagentesimple.png" alt="Playground P1"/></p>
 
 #### ⚽ Parte 2 · Flujo completo con Text‑to‑SQL
 
