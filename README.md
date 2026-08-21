@@ -804,10 +804,6 @@ En este workshop, este paso es obligatorio.
 
 Después de completar exitosamente la instalación del stack y la configuración inicial, reinicia la VM de Agent Factory antes de continuar con el uso de la plataforma.
 
-Motivo operativo en taller:
-- Reduce errores intermitentes de sesión/login.
-- Evita problemas donde componentes UI no reflejan cambios (por ejemplo, Data Source o catálogos que no aparecen de inmediato).
-- Estabiliza el arranque de servicios para los laboratorios siguientes.
 
 Procedimiento:
 1. Ve a **OCI Console** -> **Compute** -> **Instances**.
