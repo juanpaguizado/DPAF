@@ -546,11 +546,19 @@ En la VCN creada en laboratio anterior, agergar un par de reglas de acceso:
 
 Security → Security Lists → Default Security List → Security Rules
 
-Agregar reglas de entrada:
-  
+
+![](imagen-4.png)
+
+Agregar reglas de entrada (en el Security List Publico):
+
+
+
     Source CIDR	Puerto	Finalidad
     0.0.0.0/0	8080	Interfaz web de DPAF
     0.0.0.0/0	1521	Conexión con Oracle Database
+
+![alt text](imagen-5.png)
+
 
 Guardar con Add Ingress Rules.
 
