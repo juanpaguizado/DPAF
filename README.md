@@ -256,11 +256,9 @@ Guarda el archivo `.zip` en una ubicación segura. Esta Wallet se usará en paso
 > La Wallet también es generada por Terraform como output `wallet_base64`, pero para el workshop se recomienda descargarla desde la consola de Autonomous Database porque es el método más simple para los participantes.
 
 ---
-
 </details>
 
 <details>
-
 <div align="center">
 
 # 📥 Módulo 2 · Ingesta y catalogación de datos
@@ -518,7 +516,6 @@ También puedes inspeccionar la tabla desde el panel lateral → clic derecho �
 
 ---
 
-<summary><strong>🤖 Módulo 3 · AI Database Private Agent Factory</strong></summary>
 
 <div align="center">
 
