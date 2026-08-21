@@ -8,7 +8,7 @@
 [![OCI Console](https://img.shields.io/badge/OCI%20Console-F80000?style=for-the-badge&logo=oracle&logoColor=white)](https://cloud.oracle.com/)
 [![AI Database](https://img.shields.io/badge/AI%20Database-26ai-red?style=for-the-badge)](https://www.oracle.com/database/)
 [![AI Data Platform](https://img.shields.io/badge/AI%20Data%20Platform-OCI-C74634?style=for-the-badge)](https://www.oracle.com/ai-data-platform/)
-[![Duration](https://img.shields.io/badge/Duración-%7E4%20hrs-orange?style=for-the-badge)]()
+
 
 *Un workshop end‑to‑end para construir una plataforma de datos moderna e inteligente sobre Oracle Cloud Infrastructure, integrando **AI Database Private Agent Factory**.*
 
@@ -39,44 +39,6 @@ Al finalizar, serás capaz de:
 - Desplegar **AI Database Private Agent Factory** desde OCI Marketplace.
 - Diseñar un flujo conversacional en **Agent Builder** conectado a una base de datos real 
 ---
-
-## 🗺️ Arquitectura de la solución
-
-```
-                         ┌──────────────────────────┐
-                         │   Oracle Cloud Console   │
-                         │           (OCI)          │
-                         └────────────┬─────────────┘
-                                      │ aprovisiona
-                                      ▼
-                     ┌───────────────────────────────┐
-                     │   Autonomous AI Database 26ai │
-                     │    (fuente de datos común)    │
-                     └──────┬─────────────────┬──────┘
-                   Wallet   │                 │   Wallet
-                ┌───────────┘                 └────────────┐
-                ▼                                           ▼
- ┌──────────────────────────────┐           ┌──────────────────────────────────┐
- │  AI Data Platform (AIDP)     │           │           VCN (Módulo 3)         │
- │  • Catálogos Bronze/Silver/  │           │  Security List / NSG             │
- │    Gold                      │           │  • Ingress TCP 8080              │
- │  • Workspace · Notebooks     │           │    (desde IP autorizada)         │
- │  • Workflows                 │           │            │                      │
- └──────────────────────────────┘           │            ▼                      │
-         Módulos 1 y 2                      │  AI Database Private Agent        │
-                                            │  Factory (DPAF)                   │
-                                            │  • Data Source                    │
-                                            │  • Data Analysis Agents           │
-                                            │  • Agent Builder · Text-to-SQL    │
-                                            └──────────────────────────────────┘
-
-         ※ AIDP y DPAF operan de forma independiente. Ambos consumen la misma
-           Autonomous AI Database; DPAF requiere VCN con puerto TCP 8080 abierto.
-```
-
----
-
-
 
 <div align="center">
 
@@ -129,21 +91,21 @@ En este workshop, la **Autonomous AI Database 26ai** y la instancia de **AI Data
 El stack crea:
 
 - Autonomous AI Database 26ai.
-- AI Data Platform.
+- AI Data Platform (No usado en este taller).
 - Policy IAM requerida para que AIDP opere en el compartment indicado.
 - Wallet de Autonomous como output `wallet_base64`.
 - Archivo `.zip` de Wallet cuando `write_wallet_file = true`.
 
 #### Región del workshop
 
-Usa la región validada para el workshop:
+Usa la región validada para el workshop (esto influye en el  LLM que usaremos usaremos):
 
 | Campo | Valor |
 |---|---|
 | **Region name** | `US Midwest (Chicago)` |
 | **Region identifier** | `us-chicago-1` |
 
-> Mantén en la misma región la Autonomous AI Database, AIDP, Agent Factory y OCI Generative AI.
+> Mantén en la misma región la Autonomous AI Database, Agent Factory y OCI Generative AI.
 
 #### Crear el stack en Resource Manager
 
