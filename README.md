@@ -856,7 +856,7 @@ Extenderemos el flujo para que reciba preguntas, genere SQL, lo ejecute contra l
 
 <p align="center"><img width="900" src="./images/image 38.png" alt="Flujo Parte 2"/></p>
 
-##### 2.1 · Crear el Data Source (si no ejecutaste el Lab 3.5)
+##### 2.1 · Crear el Data Source (si no ejecutaste el Lab anterior)
 
 Para esta parte necesitas una conexión de tipo **Database** disponible en DPAF. Si ya la creaste en el Lab anteriormente, puedes reutilizarla y continuar al paso siguiente.
 
@@ -1036,7 +1036,7 @@ Verifica que `Agent.Message` → `Chat output.Message`.
 
 **Save** → revisa el diagrama (debe coincidir con el esquema). **Publish** para dejarlo disponible.
 
-<p align="center"><img width="900" src="./images/image 38.png" alt="Flujo final"/></p>
+<p align="center"><img width="900" src="./images/flujoterminado.png" alt="Flujo final"/></p>
 
 ##### 2.10 · Probar el flujo completo
 
