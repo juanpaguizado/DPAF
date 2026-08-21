@@ -258,7 +258,6 @@ Guarda el archivo `.zip` en una ubicación segura. Esta Wallet se usará en paso
 ---
 </details>
 
-<details>
 <div align="center">
 
 # 📥 Módulo 2 · Ingesta y catalogación de datos
