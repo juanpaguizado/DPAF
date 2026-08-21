@@ -502,16 +502,14 @@ Antes de ejecutar, selecciona primero el código y luego usa el botón verde **R
 #### Paso 2 · Validar la ingesta
 
 ```sql
-SELECT COUNT(*) AS total_oraclelabs FROM ORACLELABS.BRONZE_WC_MATCHES;
-SELECT COUNT(*) AS total_admin  FROM ADMIN.BRONZE_WC_MATCHES;
+select count(*) from COBRANZA_MOROSIDAD;
 ```
 
-<p align="center"><img width="900" src="./images/6915ad7d-d8c7-4c55-8caa-1482bd686712" alt="Select"/></p>
+<p align="center"><img width="900" src="./images/resultadoconsulta.png" alt="Select"/></p>
 
 También puedes inspeccionar la tabla desde el panel lateral → clic derecho → **Open**.
 
-<p align="center"><img width="500" src="./images/02ed2fe2-b542-47a3-b849-77c009706b5e" alt="Open table"/></p>
-<p align="center"><img width="900" src="./images/e4a22a20-e804-43ea-a52e-52ad7c777d1e" alt="Table view"/></p>
+<p align="center"><img width="500" src="./images/sqlnavegador.png" alt="Open table"/></p>
 
 ---
 
