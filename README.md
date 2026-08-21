@@ -497,7 +497,7 @@ END;
 
 Antes de ejecutar, selecciona primero el código y luego usa el botón verde **Run Statement** o el botón **Run Script**.
 
-<p align="center"><img width="900" src="./images/acccea84-7850-450b-925f-a1edeb35a516" alt="Run SQL"/></p>
+<p align="center"><img width="900" src="./images/creaciontabla.png" alt="Run SQL"/></p>
 
 #### Paso 2 · Validar la ingesta
 
