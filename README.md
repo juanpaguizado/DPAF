@@ -542,11 +542,8 @@ También puedes inspeccionar la tabla desde el panel lateral → clic derecho �
 
 Ir a Networking → Virtual Cloud Networks y confirmar el compartment.
 
-Crear una VCN con acceso a Internet:
-- Name: vcn-agent
-- Dejar lo demás por defecto y seleccionar Next → Create.
+En la VCN creada en laboratio anterior, agergar un par de reglas de acceso:
 
-En la VCN, abrir:
 Security → Security Lists → Default Security List → Security Rules
 
 Agregar reglas de entrada:
