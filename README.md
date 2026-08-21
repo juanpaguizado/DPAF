@@ -537,11 +537,15 @@ Guardar con Add Ingress Rules.
 
 Ir a Marketplace → All Applications.
 
-Buscar **Oracle AI Database Private Agent Factory.**
+Buscar **Oracle AI Database Private Agent Factory.** y seleccionalo
 
-Seleccionarla y pulsar **Launch Stack**; confirmar el compartment.
+![Agent Factory](./images/AFPaso0.png)
 
-En Stack information, dejar o ajustar nombre y descripción.
+Seleccionarla y pulsar **Launch Stack**; confirmar los siguientes datos.
+
+En Stack information, dejar o ajustar nombre y descripción, Click Next.
+![Agent Factory](./images/AFPaso1.png)
+
 
 En Configure variables:
 
@@ -554,6 +558,10 @@ En Configure variables:
     Public or Private 	        public
     Agent Factory server        display name	AgentFactoryVM
     Agent Factory server shape	VM.Standard.E5.Flex
+
+
+![Agent Factory](./images/AFpaso2.png)
+
 
 Cargar una llave pública SSH.  
 [Descargar la llave pública SSH `oraclelabs.pub`](./tools/oraclelabs.pub)
