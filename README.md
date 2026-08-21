@@ -35,7 +35,7 @@ Trabajaremos con dos productos estrella del stack de IA de Oracle:
 Al finalizar, serás capaz de:
 
 - Aprovisionar una **Autonomous AI Database 26ai** desde OCI Console / Resource Manager.
-- Ingestar datos en Autonomous mediante `DBMS_CLOUD` 
+- Ingestar datos en Autonomous mediante cpm Data Load
 - Desplegar **AI Database Private Agent Factory** desde OCI Marketplace.
 - Diseñar un flujo conversacional en **Agent Builder** conectado a una base de datos real 
 ---
@@ -98,7 +98,7 @@ El stack crea:
 
 #### Región del workshop
 
-Usa la región validada para el workshop (esto influye en el  LLM que usaremos usaremos):
+Usa la región validada para el workshop (esto influye en el  LLM que usaremos usaremos) como referencia pondremos Chicago:
 
 | Campo | Valor |
 |---|---|
@@ -260,7 +260,6 @@ Guarda el archivo `.zip` en una ubicación segura. Esta Wallet se usará en paso
 </details>
 
 <details>
-<summary><strong>📥 Módulo 2 · Ingesta y catalogación de datos</strong></summary>
 
 <div align="center">
 
