@@ -486,7 +486,12 @@ Antes de ejecutar, selecciona primero el código y luego usa el botón verde **R
 
 <p align="center"><img width="900" src="./images/creaciontabla.png" alt="Run SQL"/></p>
 
-#### Paso 2 · Validar la ingesta
+#### Paso 2 · Ingesta de datos 
+
+Via autonomous database cargar el archivo cobranza_morosidad.csv
+[Descargar datos `](./tools/cobranza_morosidad.csv)
+
+Validar que se carguen completamente el archivo
 
 ```sql
 select count(*) from COBRANZA_MOROSIDAD;
