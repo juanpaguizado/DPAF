@@ -1030,6 +1030,11 @@ CREATE TABLE COBRANZA_MOROSIDAD(
 Debes generar únicamente código SQL, sin comentarios (ni `--` ni `/** */`).
 Cualquier texto adicional constituye un error grave. No finalices el SQL con `;`.
 
+Para comparar columnas de texto, usa siempre comparaciones sin distinción entre mayúsculas y minúsculas:
+UPPER(nombre_columna) = UPPER('valor')
+
+No conviertas los valores literales a mayúsculas sin usar UPPER en la columna.
+
 Usa solo las columnas listadas en la estructura de la tabla.
 
 Ejemplo:
