@@ -568,6 +568,10 @@ Cargar una llave pública SSH.
 
 En Review, lanzar el stack. El texto señalaba que tardaba unos 3–4 minutos y que el log final entrega la URL de DPAF.
 
+
+![Agent Factory](./images/AFpaso3.png)
+
+
 ### 3.3 Registro inicial y configuración de modelos
 
 Abre el link entregado por el stack. Verás la página de **registro inicial**:
