@@ -601,6 +601,15 @@ En Review, lanzar el stack. El texto señalaba que tardaba unos 3–4 minutos y 
 ![Agent Factory](./images/AFpaso3.png)
 
 
+Ir hacia la pantalla de JOS y una vez que esta en estado "Succeeded", se debe de ingresar al link que estan en los Jobs al final de la lista de mensajes
+
+
+
+![alt text](imagen-6.png)
+
+
+
+
 ### 3.3 Registro inicial y configuración de modelos
 
 Abre el link entregado por el stack. Verás la página de **registro inicial**:
@@ -616,10 +625,27 @@ Registra tu cuenta y continúa a la **conexión con la base de datos**, cargando
 | **Air‑gapped environment** | `No` |
 | **Does the database server use a wallet?** | `Yes` |
 | **Are the OCI certificates added to the wallet?** | `Yes` |
+| **Database service alias** | `deepdiveaidb_high` |
+| **User** | `ADMIN` |
+| **Password** | `Password de Admin> Workshop@123` |
 
-Prueba la conexión; un mensaje de éxito confirma la comunicación con la base.
+
+
+
+![alt text](imagen-7.png)
+
 
 <p align="center"><img width="900" src="./images/image 27.png" alt="Conn OK"/></p>
+
+Prueba la conexión; un mensaje de éxito confirma la comunicación con la base y luego Next.
+
+![alt text](imagen-8.png)
+
+Click en Install 
+![alt text](imagen-9.png)
+
+
+
 
 Al presionar **Next** verás los logs de instalación. En el paso siguiente configuraremos los modelos.
 
