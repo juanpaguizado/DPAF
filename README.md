@@ -503,6 +503,7 @@ También puedes inspeccionar la tabla desde el panel lateral → clic derecho �
 
 <div align="center">
 
+
 # 🤖 Módulo 3 · AI Database Private Agent Factory
 
 [![Oracle AI Database Private Agent Factory](https://img.shields.io/badge/DPAF%20-OCI-C74634?style=for-the-badge)](https://docs.oracle.com/en/database/oracle/agent-factory/index.html)
@@ -512,6 +513,52 @@ También puedes inspeccionar la tabla desde el panel lateral → clic derecho �
 </div>
 
 ---
+
+### 3.1 Creacion de Redes y Permisos
+
+Ir a Networking → Virtual Cloud Networks y confirmar el compartment.
+
+Crear una VCN con acceso a Internet:
+- Name: vcn-agent
+- Dejar lo demás por defecto y seleccionar Next → Create.
+
+En la VCN, abrir:
+Security → Security Lists → Default Security List → Security Rules
+
+Agregar reglas de entrada:
+  
+    Source CIDR	Puerto	Finalidad
+    0.0.0.0/0	8080	Interfaz web de DPAF
+    0.0.0.0/0	1521	Conexión con Oracle Database
+
+Guardar con Add Ingress Rules.
+
+### 3.2 Despliegue en OCI Marketplace
+
+Ir a Marketplace → All Applications.
+
+Buscar **Oracle AI Database Private Agent Factory.**
+
+Seleccionarla y pulsar **Launch Stack**; confirmar el compartment.
+
+En Stack information, dejar o ajustar nombre y descripción.
+
+En Configure variables:
+
+    Sección	                    Valor
+    Region	                    Tu región OCI actual
+    VM compartment	            Tu compartment
+    Subnet compartment	        Tu compartment
+    VCN	                        vcn-agent
+    Existing subnet	            Una subred pública
+    Public or Private 	        public
+    Agent Factory server        display name	AgentFactoryVM
+    Agent Factory server shape	VM.Standard.E5.Flex
+
+Cargar una llave pública SSH.  
+[Descargar la llave pública SSH `oraclelabs.pub`](./tools/oraclelabs.pub)
+
+En Review, lanzar el stack. El texto señalaba que tardaba unos 3–4 minutos y que el log final entrega la URL de DPAF.
 
 ### 3.3 Registro inicial y configuración de modelos
 
